@@ -18,7 +18,7 @@ try {
     std::string hello, world;
     es.[out](reference.html#out)() >> hello; <span class="comment">// read the first word of output </span>
     es.[out](reference.html#out)() >> world; <span class="comment">// read the second word </span>
-}catch( std::exception const &amp; e ) {
+}catch( std::exception const & e ) {
     std::cerr << "error: "  <<  e.what()  <<  "\n";
 }
 ```
@@ -49,7 +49,7 @@ try {
     while( std::getline( es.[out](reference.html#out)(), s ).good() ) {
         // do something with 's'
     }
-}catch( std::exception const &amp; e ) {
+}catch( std::exception const & e ) {
     std::cerr << "error: "  <<  e.what()  <<  "\n";
 }
 ```
@@ -99,12 +99,12 @@ Libexecstream provides one class, `exec_stream_t`, which has the following membe
     `set_wait_timeout`). In the default state, amount of data buffered for writing to child's stdin,
     and amount of data read in advance from child's stdout and `stderr` is unlimited. On windows, all streams are in the text mode.
 
-* `exec_stream_t( std::string const &amp; program, std::string const &amp; `arguments )
+* `exec_stream_t( std::string const & program, std::string const & arguments )`
 
     Constructs `exec_stream_t` in the default state, then starts program with arguments. Arguments containing space should be
     included in double quotation marks, and double quote in such arguments should be escaped with backslash.
 
-* `template&lt; class iterator &gt; exec_stream_t( std::string const &amp; `program, iterator args_begin, iterator args_end )
+* `template< class iterator > exec_stream_t( std::string const & program, iterator args_begin, iterator args_end )`
 
     Constructs `exec_stream_t` in the default state, then starts program with arguments specified by the range `args_begin`, `args_end`. 
     `args_begin` should be an input iterator that when dereferenced gives value assignable to `std::string`. 
@@ -114,15 +114,15 @@ Libexecstream provides one class, `exec_stream_t`, which has the following membe
 
     Writes (with `timeout`) all pending data to child stdin, closes streams and waits (with `timeout`) for child process to stop.
 
-* `std::ostream &amp; in()`
+* `std::ostream & in()`
 
     Returns output stream for writing to child's `stdin`.
 
-* `std::istream &amp; out()`
+* `std::istream & out()`
 
     Returns input stream for reading child's `stdout`.
 
-* `std::istream &amp; err()`
+* `std::istream & err()`
 
     Returns input stream for reading child's `stderr`.
 
@@ -130,12 +130,12 @@ Libexecstream provides one class, `exec_stream_t`, which has the following membe
 
     Closes child's standard input after writing (with `timeout`) all pending data to it.
 
-* `void start( std::string const &amp; program, std::string const &amp; `arguments )
+* `void start( std::string const & program, std::string const & `arguments )
 
     Starts program with arguments. Arguments are space-separated. Arguments containing space should be
     included in double quotation marks, and double quote in such arguments should be escaped with backslash.
 
-* `template&lt; class iterator &gt; void start( std::string const &amp; `program, iterator args_begin, iterator args_end )
+* `template< class iterator > void start( std::string const & program, iterator args_begin, iterator args_end )`
 
     Starts program with arguments specified by the range `args_begin`, `args_end`. `args_begin` should be an input iterator that when dereferenced 
     gives value assignable to `std::string`. Spaces and double quotes in arguments need not to be escaped.
