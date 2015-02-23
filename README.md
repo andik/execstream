@@ -83,31 +83,31 @@ For more examples see the file `test/exec-stream-test.cpp` in the source distrib
 
 ## Reference
 
-Libexecstream provides one class, exec_stream_t, which has the following members:
+Libexecstream provides one class, `exec_stream_t`, which has the following members:
 
 ### class error_t : public std::exception
 
-Exceptions thrown from exec_stream_t members are derived from error_t. error_t is derived from std::exception and has no additional
-public members besides constructors. Exceptions may be thrown from any exec_stream_t member function except destructor and accessors: in(), out() and err().
-Writing to in() and reading out() and err() will also throw exceptions when errors occur.
+Exceptions thrown from `exec_stream_t` members are derived from `error_t`. `error_t` is derived from std::exception and has no additional
+public members besides constructors. Exceptions may be thrown from any `exec_stream_t` member function except destructor and accessors: `in()`, `out()` and `err()`.
+Writing to `in()` and reading `out()` and `err()` will also throw exceptions when errors occur.
 
 ### exec_stream_t()
 
-Constructs exec_stream_t in the default state. You may change timeouts, buffer limits and text or binary modes
+Constructs `exec_stream_t` in the default state. You may change timeouts, buffer limits and text or binary modes
 of the streams before `start`ing child process (see `set_buffer_limit`, 
 `set_binary_mode`, `set_text_mode`, 
 `set_wait_timeout`). In the default state, amount of data buffered for writing to child's stdin,
-and amount of data read in advance from child's stdout and stderr is unlimited. On windows, all streams are in the text mode.
+and amount of data read in advance from child's stdout and `stderr` is unlimited. On windows, all streams are in the text mode.
 
 ### exec_stream_t( std::string const &amp; program, std::string const &amp; arguments )
 
-Constructs exec_stream_t in the default state, then starts program with arguments. Arguments containing space should be
+Constructs `exec_stream_t` in the default state, then starts program with arguments. Arguments containing space should be
 included in double quotation marks, and double quote in such arguments should be escaped with backslash.
 
 ### template&lt; class iterator &gt; exec_stream_t( std::string const &amp; program, iterator args_begin, iterator args_end )
 
-Constructs exec_stream_t in the default state, then starts program with arguments specified by the range args_begin, args_end. 
-args_begin should be an input iterator that when dereferenced gives value assignable to std::string. 
+Constructs `exec_stream_t` in the default state, then starts program with arguments specified by the range `args_begin`, `args_end`. 
+`args_begin` should be an input iterator that when dereferenced gives value assignable to `std::string`. 
 Spaces and double quotes in arguments need not to be escaped.
 
 ### ~exec_stream_t()
@@ -117,15 +117,15 @@ closes streams and waits (with `timeout`) for child process to stop.
 
 ### std::ostream &amp; in()
 
-Returns output stream for writing to child's stdin.
+Returns output stream for writing to child's `stdin`.
 
 ### std::istream &amp; out()
 
-Returns input stream for reading child's stdout.
+Returns input stream for reading child's `stdout`.
 
 ### std::istream &amp; err()
 
-Returns input stream for reading child's stderr.
+Returns input stream for reading child's `stderr`.
 
 ### bool close_in()
 
@@ -138,8 +138,8 @@ included in double quotation marks, and double quote in such arguments should be
 
 ### template&lt; class iterator &gt; void start( std::string const &amp; program, iterator args_begin, iterator args_end )
 
-Starts program with arguments specified by the range args_begin, args_end. args_begin should be an input iterator that when dereferenced 
-gives value assignable to std::string. Spaces and double quotes in arguments need not to be escaped.
+Starts program with arguments specified by the range `args_begin`, `args_end`. `args_begin` should be an input iterator that when dereferenced 
+gives value assignable to `std::string`. Spaces and double quotes in arguments need not to be escaped.
 
 ### enum stream_kind_t { s_in=1, s_out=2, s_err=4, s_all=s_in|s_out|s_err, s_child=8  }
 
@@ -159,10 +159,10 @@ Setting limit for both input and output streams may cause deadlock in situations
 are writing data to each other without reading it. Such deadlock will cause the `timeout` to expire while
 writing to `in()`.
 
-When size argument to set_buffer_limit is 0, buffers are considered unlimited, and will grow unlimited if one side produce data that the other side does not consume.
+When size argument to `set_buffer_limit` is 0, buffers are considered unlimited, and will grow unlimited if one side produce data that the other side does not consume.
 This is the default state after exec_stream_t creation.
 
- set_buffer_limit will throw `exception` when called while child process is running.
+`set_buffer_limit` will throw `exception` when called while child process is running.
 
 ### typedef unsigned long timeout_t
 
@@ -176,29 +176,29 @@ child process to produce data when reading `out()` and `err()` respectively.
 
 For `in()` stream (when `exec_stream_t::s_in` is set in the stream_kind), 
 sets maximum amount of time to wait for a child process to consume data that were written to `in()`. 
-Note that when [buffer limit](#set_buffer_limit) for in() is not set, writing to in() always writes to buffer and does not wait for child at all.
+Note that when `set_buffer_limit` for `in()` is not set, writing to `in()` always writes to buffer and does not wait for child at all.
 
-If that amount of time is exceeded while reading in() or writing to out() and err(), exception is thrown.
+If that amount of time is exceeded while reading `in()` or writing to `out()` and `err()`, exception is thrown.
 
 When `exec_stream_t::s_child` is set in the stream kind, set_wait_timeout sets the maximum amount of time to wait
 for a child process to terminate when `close` is called. If that amount of time is exceeded, close() will return false.
 
- set_wait_timeout will throw `exception` when called while child process is running.
+`set_wait_timeout` will throw `exception` when called while child process is running.
 
 ### void set_text_mode( int stream_kind )
 
 sets stream specified by `stream_kind` to text mode. In text mode, in the data written to child's stdin,
-\n are replaced by \r\n; and in the data read from child's stdout and stderr, \r\n are replaced by \n. Text mode is the default on Windows. 
-set_text_mode has no effect on Linux.
+`\n` are replaced by `\r\n` and in the data read from child's stdout and stderr, `\r\n` are replaced by `\n`. Text mode is the default on Windows. 
+`set_text_mode` has no effect on Linux.
 
- set_text_mode will throw `exception` when called while child process is running.
+`set_text_mode` will throw `exception` when called while child process is running.
 
 ### void set_binary_mode( int stream_kind )
 
 sets stream specified by `stream_kind` to binary mode. All data written or read from streams are passed unchanged.
-set_binary_mode has no effect on Linux.
+`set_binary_mode` has no effect on Linux.
 
- set_binary_mode will throw `exception` when called while child process is running.
+`set_binary_mode` will throw `exception` when called while child process is running.
 
 ### bool close()
 
